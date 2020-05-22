@@ -9,4 +9,10 @@
     <string name="BtnPararAlarma">Parar</string>
     <string name="mensaje4">Alarma Silenciosa Activa</string>
     <string name="BtnPararAlarmaSilenciosa">Parar</string>
+    <!-- NOMBRE DE CAMPOS A REGISTRAR -->
+    <string name="Nombre">Nombre</string>
+    <string name="Apellido">Apellido</string>
+    <string name="Edad">Edad</string>
+    <string name="Email">Email</string>
+    <string name="Password">Password</string>
 </resources>
