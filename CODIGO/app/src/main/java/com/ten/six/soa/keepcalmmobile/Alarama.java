@@ -1,10 +1,13 @@
 package com.ten.six.soa.keepcalmmobile;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.SystemClock;
 import android.view.View;
 import android.widget.TextView;
@@ -38,10 +41,10 @@ public class Alarama extends AppCompatActivity implements SensorEventListener {
     private TextView acelerometro;
     private TextView contador;
     private boolean alarmaOn=false;
-    private float x;
-    private float y;
-    private float z;
+    private float x , y, z;
+    private double tolerancia=0.5;
     private int tiempoContador=10;
+    MediaPlayer alertaMediaPlayer;
 
 
     DecimalFormat         dosdecimales = new DecimalFormat("###.###");
@@ -50,34 +53,69 @@ public class Alarama extends AppCompatActivity implements SensorEventListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarama);
-        Button ActivarAlarma = (Button) findViewById(R.id.button6);
+         alertaMediaPlayer = MediaPlayer.create(this, R.raw.sonidoalarma);
+
+        Button activarAlarma = (Button) findViewById(R.id.button6);
+        Button desActivarAlarma = (Button) findViewById(R.id.button4);
         acelerometro = (TextView) findViewById(R.id.acelerometro);
         contador = (TextView) findViewById(R.id.contador);
-        contador.setText(R.string.ContadorActivacion);
+
         // Accedemos al servicio de sensores
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        ActivarAlarma.setOnClickListener(new OnClickListener() {
+        activarAlarma.setOnClickListener(new OnClickListener() {
                                                      @Override
                                                     public void onClick(View v)
-                                                    {
-                                                        contador.setText(R.string.ContadorActivacion);
-                                                        for (; tiempoContador > 0; tiempoContador--) {
-                                                            SystemClock.sleep(1000);
-                                                            contador.setText(R.string.ContadorActivacion+ tiempoContador);
-                                                        }
-                                                        contador.setText("Alarma activada");
-                                                        SystemClock.sleep(1000);
-                                                        contador.setText("");
-                                                        // Empezamos dentro de 10ms y luego lanzamos la tarea cada 1000ms
-                                                        alarmaOn = true;
-                                                    }
+                                                     {
+                                                        cuentaRegresiva(10000);
+                                                     }
                                              });
+        desActivarAlarma.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                pararAlarma(v);
+            }
+        });
+
+        //requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
+
+        }
+    @Override
+    public void onBackPressed (){
+        if (alarmaOn) {
+
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    private void cuentaRegresiva(int ms) {
+        new CountDownTimer(ms, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+                contador.setText("La alarma se activara en: "+millisUntilFinished/1000);
+
+            }
+
+            @Override
+            public void onFinish() {
+                contador.setText("ALARMA ACTIVADA");
+                alarmaOn = true;
+            }
+        }.start();
+
     }
 
     //Metodo para volver a la pantalla de funcionalidades
     public void pararAlarma(View view){
-        Intent pararAlarma = new Intent(this, Funcionalidades.class);
-        startActivity(pararAlarma);
+        //HAY QUE PEDIR CONTRASEÑA ANTES
+        alarmaOn=false;
+        alertaMediaPlayer.stop();
+        contador.setText("ALARMA DESACTIVADA");
+        super.onBackPressed();
+        /*Intent pararAlarma = new Intent(this, Funcionalidades.class);
+        startActivity(pararAlarma);*/
     }
 
     protected void Ini_Sensores() {
@@ -99,15 +137,21 @@ public class Alarama extends AppCompatActivity implements SensorEventListener {
             switch (event.sensor.getType()) {
 
                 case Sensor.TYPE_ACCELEROMETER:
-                    if(alarmaOn) {
-                        txt += "Acelerometro:\n";
-                        txt += "x: " + dosdecimales.format(event.values[0]) + " m/seg2 \n";
-                        txt += "y: " + dosdecimales.format(event.values[1]) + " m/seg2 \n";
-                        txt += "z: " + dosdecimales.format(event.values[2]) + " m/seg2 \n";
-                        acelerometro.setText(R.string.AlarmaActivada);
+                    if(!alarmaOn) {
+                        x=event.values[0];
+                        y=event.values[1];
+                        z=event.values[2];
+
                     }
-
-
+                    else {
+                        if ( event.values[0]>x+tolerancia || event.values[0]<x-tolerancia
+                                || event.values[1]>y+tolerancia || event.values[1]<y-tolerancia
+                                    || event.values[2]>z+tolerancia || event.values[2]<z-tolerancia
+                                ) {
+                            acelerometro.setText("Alerta Alarma");
+                            alertaMediaPlayer.start();
+                        }
+                    }
                     break;
             }
         }
