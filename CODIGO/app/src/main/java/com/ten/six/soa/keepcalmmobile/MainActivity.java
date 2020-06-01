@@ -5,40 +5,71 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
     private EditText nombre;
     private EditText apellido;
-    private EditText edad;
+    private EditText dni;
     private EditText email;
     private EditText password;
+    private AlumnoDTO alu;
+
+
+    ConnectivityManager connMgr;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        /*
         this.nombre = (EditText)findViewById(R.id.editText);
         this.apellido = (EditText)findViewById(R.id.editText2);
         this.edad = (EditText)findViewById(R.id.editText3);
         this.email = (EditText)findViewById(R.id.editText4);
         this.password = (EditText)findViewById(R.id.editText5);
-
+        */
+        // BUSCO SI EXISTEN DATOS PREVIOS GUARDADOS
         SharedPreferences preferences = getSharedPreferences("datoUsuario", Context.MODE_PRIVATE);
+        if(!preferences.getString("nombre","").equals("")){
+            this.alu = new AlumnoDTO(preferences.getString("nombre",""),
+                    preferences.getString("apellido",""),
+                    preferences.getString("dni",""),
+                    preferences.getString("email",""),
+                    preferences.getString("password",""));
+
+        }
+        else{
+            alu = new AlumnoDTO();
+            Log.e("MARIAN", "No habia info");
+        }
+
+        /*CODIGO MIGRADO
         this.nombre.setText(preferences.getString("nombre",""));
         this.apellido.setText(preferences.getString("apellido",""));
-        this.edad.setText(preferences.getString("edad",""));
+        this.dni.setText(preferences.getString("dni",""));
         this.email.setText(preferences.getString("email",""));
         this.password.setText(preferences.getString("password",""));
+        */
+        connMgr = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
+        if( !(networkInfo != null && networkInfo.isConnected()) ){
+            finish(); // con esta linea, sale de la app
+            System.exit(0);// validar diferencia entre tener esta linea o no
+        }
 
     }
 
     //Metodo para pasar a la pantalla de funcionalidades
-    public void Funcionalidades(View view){
+    /*COGIDO MIGRADO
+     public void Funcionalidades(View view){
 
         // GUARDO LA INFORMACION DEL USUARIO
         SharedPreferences preferences = getSharedPreferences("datoUsuario", Context.MODE_PRIVATE);
@@ -53,4 +84,38 @@ public class MainActivity extends AppCompatActivity {
         Intent funcionalidad = new Intent(this, Funcionalidades.class);
         startActivity(funcionalidad);
     }
+     */
+
+    public void irRegistro(View view){
+        if(hayConexion()){
+            Intent registrarse = new Intent(this, Registro.class);
+           //SI EXISTE INFORMACION GUARDAD SE ENVIA CARGA PARA ENVIAR A LA SIGUIENTE ACTIVITY
+            if(!alu.isEmpty()){
+                registrarse.putExtra("AlumnoDTO",alu);
+            }
+            else
+                Log.e("MARIAN", "no se carga nada al intent");
+
+
+            startActivity(registrarse);
+        }
+        else
+            mesajeSinConexion();
+
+    }
+
+    public void irLogin(View view){
+
+    }
+
+    public boolean hayConexion(){
+        connMgr = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
+    }
+
+    public void mesajeSinConexion(){
+        Toast.makeText(this,"Sin conexion",Toast.LENGTH_SHORT).show();
+    }
+
 }
