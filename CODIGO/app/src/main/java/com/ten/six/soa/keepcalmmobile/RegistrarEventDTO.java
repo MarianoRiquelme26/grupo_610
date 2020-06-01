@@ -8,8 +8,8 @@ public class RegistrarEventDTO implements IRequest{
     private String state;
     private String description;
 
-    public RegistrarEventDTO(String env, String type_events, String state, String description) {
-        this.env = env;
+    public RegistrarEventDTO(String type_events, String state, String description) {
+        this.env = "TEST";
         this.type_events = type_events;
         this.state = state;
         this.description = description;

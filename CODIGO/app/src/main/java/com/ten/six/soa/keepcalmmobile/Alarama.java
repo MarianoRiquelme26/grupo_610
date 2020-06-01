@@ -45,6 +45,9 @@ public class Alarama extends AppCompatActivity implements SensorEventListener {
     private double tolerancia=0.5;
     private int tiempoContador=10;
     MediaPlayer alertaMediaPlayer;
+    RegistrarEventDTO evento;
+    ServiceTask servidorSOA;
+    boolean eventoRegistrado;
 
 
     DecimalFormat         dosdecimales = new DecimalFormat("###.###");
@@ -59,6 +62,10 @@ public class Alarama extends AppCompatActivity implements SensorEventListener {
         Button desActivarAlarma = (Button) findViewById(R.id.button4);
         acelerometro = (TextView) findViewById(R.id.acelerometro);
         contador = (TextView) findViewById(R.id.contador);
+
+        servidorSOA = new ServiceTask(this, "http://so-unlam.net.ar/api/api/event");
+        eventoRegistrado = false;
+
 
         // Accedemos al servicio de sensores
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -150,6 +157,8 @@ public class Alarama extends AppCompatActivity implements SensorEventListener {
                                 ) {
                             acelerometro.setText("Alerta Alarma");
                             alertaMediaPlayer.start();
+                            registrarEvento();
+
                         }
                     }
                     break;
@@ -202,6 +211,16 @@ public class Alarama extends AppCompatActivity implements SensorEventListener {
         super.onResume();
 
         Ini_Sensores();
+    }
+    public void registrarEvento(){
+
+        if(!this.eventoRegistrado){
+            this.eventoRegistrado = true;
+            evento = new RegistrarEventDTO("SENSOR","ACTIVO","Alarma sonora activada - Ayuda!! me estan robando");
+            servidorSOA.setReqOriginal(evento);
+            servidorSOA.execute();
+        }
+
     }
 
 }

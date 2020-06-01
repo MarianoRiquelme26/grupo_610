@@ -31,10 +31,19 @@ public class ServiceTask extends AsyncTask<Void,Void,String> {
         reqOriginal = req;
     }
 
+    public ServiceTask(Context httpContext, String linkAPI){
+        this.httpContext = httpContext;
+        this.linkrequestAPI = linkAPI;
+    }
+    public void setReqOriginal(IRequest req){
+        reqOriginal = req;
+    }
+
     @Override
     protected void onPreExecute(){
         super.onPreExecute();
-        progressDialog = ProgressDialog.show(httpContext,"Procesando Solicitud","aguarde unos instantes");
+        if(!this.linkrequestAPI.contains("event"))
+            progressDialog = ProgressDialog.show(httpContext,"Procesando Solicitud","aguarde unos instantes");
     }
 
     @Override
@@ -112,7 +121,8 @@ public class ServiceTask extends AsyncTask<Void,Void,String> {
     protected void onPostExecute(String s){
         Log.e("MARIAN"," onPostExecute: "+s);
         super.onPostExecute(s);
-        progressDialog.dismiss();
+        if(!this.linkrequestAPI.contains("event"))
+            progressDialog.dismiss();
         resultApi = s;
         Toast.makeText(httpContext,resultApi,Toast.LENGTH_SHORT);//VER SI ES NECESARIO ESTO
     }
