@@ -21,11 +21,14 @@ public class ServiceTask extends AsyncTask<Void,Void,String> {
     ProgressDialog progressDialog;
     public String resultApi="";
     public String linkrequestAPI = "";
+    private  IRequest reqOriginal;
+
     public String token = "$2y$10$mMBNTCENdsjIQS73Tsy/Nuu9SV2uMJxKNk2aKSnHft/UYfwpSEG8a";
 
-    public ServiceTask(Context httpContext, String linkAPI){
+    public ServiceTask(Context httpContext, String linkAPI, IRequest req){
         this.httpContext = httpContext;
         this.linkrequestAPI = linkAPI;
+        reqOriginal = req;
     }
 
     @Override
@@ -41,16 +44,19 @@ public class ServiceTask extends AsyncTask<Void,Void,String> {
         String apiREST = this.linkrequestAPI;
         URL url = null;
         RegistroLoginEventoRspDTO responseBody;
-        IRequest req;
+        IRequest request;
 
         try{
             url = new URL(apiREST);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-
+            /*
             if(!apiREST.contains("event"))
-                req = new AlumnoDTO("TEST","Mariano","Riquelme","36287422","marianoprueba@soa.com","12345678","3900","610");
+                request = (AlumnoDTO) reqOriginal;
             else
-                req = new RegistrarEventDTO("TEST","estos son test del team 610","Activo","Flaaaaaaaaaaaaaandeeeeeeeeers ... presta atencion");
+                request = (RegistrarEventDTO) reqOriginal;
+                //request = new RegistrarEventDTO("TEST","estos son test del team 610","Activo","Flaaaaaaaaaaaaaandeeeeeeeeers ... presta atencion");
+
+            */
 
             urlConnection.setRequestMethod("POST");
             urlConnection.setDoInput(true);
@@ -59,9 +65,10 @@ public class ServiceTask extends AsyncTask<Void,Void,String> {
             if(apiREST.contains("event"))
                 urlConnection.setRequestProperty("token", token);
 
+            Log.e("MARIAN", "request: "+ reqOriginal.toJson());
             OutputStream os = urlConnection.getOutputStream();
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os,"UTF-8"));
-            writer.write(req.toJson());
+            writer.write(reqOriginal.toJson());
             writer.flush();
             writer.close();
             os.close();
@@ -81,6 +88,8 @@ public class ServiceTask extends AsyncTask<Void,Void,String> {
                 result = sb.toString();
 
                 responseBody = RegistroLoginEventoRspDTO.toObjeto(result);
+                this.token = responseBody.getToken();
+
             }
             else{
                 result = new String("ErrorCode " + responseCode);
@@ -105,7 +114,11 @@ public class ServiceTask extends AsyncTask<Void,Void,String> {
         super.onPostExecute(s);
         progressDialog.dismiss();
         resultApi = s;
-        Toast.makeText(httpContext,resultApi,Toast.LENGTH_SHORT);
+        Toast.makeText(httpContext,resultApi,Toast.LENGTH_SHORT);//VER SI ES NECESARIO ESTO
+    }
+
+    public String getToken(){
+        return this.token;
     }
 
 }

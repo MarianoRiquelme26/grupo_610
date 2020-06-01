@@ -90,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
         if(hayConexion()){
             Intent registrarse = new Intent(this, Registro.class);
            //SI EXISTE INFORMACION GUARDAD SE ENVIA CARGA PARA ENVIAR A LA SIGUIENTE ACTIVITY
+            Log.e("MARIAN", "valido si alu es vacio");
             if(!alu.isEmpty()){
                 registrarse.putExtra("AlumnoDTO",alu);
             }
@@ -105,6 +106,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void irLogin(View view){
+        if(hayConexion()){
+            Intent Login = new Intent(this, Login.class);
+            //SI EXISTE INFORMACION GUARDAD SE ENVIA CARGA PARA ENVIAR A LA SIGUIENTE ACTIVITY
+            Log.e("MARIAN", "valido si alu es vacio");
+            if(!alu.isEmpty()){
+                Login.putExtra("AlumnoDTO",alu);
+            }
+            else
+                Log.e("MARIAN", "no se carga nada al intent");
+
+            startActivity(Login);
+        }
+        else
+            mesajeSinConexion();
 
     }
 

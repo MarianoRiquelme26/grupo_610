@@ -26,4 +26,7 @@ public class RegistroLoginEventoRspDTO {
         RegistroLoginEventoRspDTO body = gson.fromJson(payload, RegistroLoginEventoRspDTO.class);
         return body;
     }
+    public String getToken(){
+        return this.token;
+    }
 }

@@ -36,14 +36,17 @@ public class AlumnoDTO implements IRequest, Serializable {
         this.group = 610;
     }
     public AlumnoDTO() {
-        this.env = "";
+        this.env = "TEST";
+        this.commission =3900;
+        this.group = 610;
+        this.name="";
     }
 
     public String toJson() {
         return new Gson().toJson(this);
     }
     public boolean isEmpty(){
-        return this.env.equals("");
+        return this.name.equals("");
     }
 
     public String getName() {
@@ -67,5 +70,28 @@ public class AlumnoDTO implements IRequest, Serializable {
 
     public String getPassword() {
         return password;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public void setDni(int dni) {
+        this.dni = dni;
+    }
+    public void setDnifromString(String dni) {
+        this.dni = Integer.valueOf(dni);
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
