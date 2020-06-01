@@ -6,6 +6,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -25,8 +26,7 @@ public class MainActivity extends AppCompatActivity {
         btnEvento = (Button) findViewById(R.id.btnEvent);
 
 
-        ConnectivityManager connMgr = (ConnectivityManager)
-                getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connMgr = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
             btnRegistrar.setOnClickListener(new View.OnClickListener() {
@@ -50,12 +50,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         } else {
-            Toast.makeText(MainActivity.this,"No hay conexion con internet",Toast.LENGTH_SHORT).show();
-
-            onDestroy();
+            finish();
         }
-
-
 
     }
 
@@ -72,14 +68,5 @@ public class MainActivity extends AppCompatActivity {
         ServiceTask servidorSOA = new ServiceTask(this,"http://so-unlam.net.ar/api/api/event");
         servidorSOA.execute();
     }
-
-//NO PUEDO HACER QUE SE MUESTRE EL MENSAJE, AUTOMANTIMANTE SE DESTRUYE
-    @Override
-    protected void onDestroy() {
-
-        Toast.makeText(MainActivity.this,"No hay conexion con internet",Toast.LENGTH_SHORT).show();
-        super.onDestroy();
-    }
-
 
 }

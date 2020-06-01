@@ -3,4 +3,6 @@
     <string name="btnRegistrar">Registrar</string>
     <string name="btnLogin">Login</string>
     <string name="btnEvento">Registrar evento</string>
+    <string name="msjSinConexion">No hay conexion a internet, intente mas tarde</string>
+    <string name="msjBienvenida">Bienvenido a keepcalmmobile</string>
 </resources>
