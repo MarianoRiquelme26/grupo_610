@@ -33,7 +33,7 @@ public class Login extends AppCompatActivity {
         else//no tendria que llegar a esta etapa que quiere loguearse y no hay datos, tendria que frenarlo la pantalla anterior
             alu = new AlumnoDTO();
 
-        this.nombre.setText(alu.getName());
+        this.nombre.setText("Hola "+alu.getName());
 
 
     }
