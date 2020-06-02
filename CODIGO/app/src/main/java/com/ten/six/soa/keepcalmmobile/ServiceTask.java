@@ -3,6 +3,7 @@ package com.ten.six.soa.keepcalmmobile;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.StrictMode;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -54,7 +55,8 @@ public class ServiceTask extends AsyncTask<Void,Void,String> {
         URL url = null;
         RegistroLoginEventoRspDTO responseBody;
         IRequest request;
-
+        StrictMode.ThreadPolicy policy=new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         try{
             url = new URL(apiREST);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
