@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">KeepCalmMovile</string>
+    <string name="app_name">KeepCalmMobile</string>
     <string name="mensaje1">Pantalla de registro</string>
     <string name="BtnRegistro">Registrarse</string>
     <string name="BtnLogin">Login</string>
