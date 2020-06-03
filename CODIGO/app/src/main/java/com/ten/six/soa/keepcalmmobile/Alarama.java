@@ -97,6 +97,7 @@ public class Alarama extends AppCompatActivity implements SensorEventListener {
                 password.setVisibility(v.INVISIBLE);
                 cerrarIngresoPassword.setVisibility(v.INVISIBLE);
                 confirmar.setVisibility(v.INVISIBLE);
+                desActivarAlarma.setVisibility(View.VISIBLE);
 
             }
         });
@@ -155,7 +156,7 @@ public class Alarama extends AppCompatActivity implements SensorEventListener {
             @Override
             public void onFinish() {
                 desActivarAlarma.setVisibility(View.VISIBLE);
-                activarAlarma.setVisibility(View.VISIBLE);
+                activarAlarma.setVisibility(View.INVISIBLE);
 
                 contador.setText("ALARMA ACTIVADA");
                 alarmaOn = true;
@@ -171,6 +172,7 @@ public class Alarama extends AppCompatActivity implements SensorEventListener {
         desActivarAlarma.setVisibility(v.INVISIBLE);
         rectanguloPararAlarma.setVisibility(v.VISIBLE);
         ingresePasswordPararContraseña.setVisibility(v.VISIBLE);
+        password.setText("");
         password.setVisibility(v.VISIBLE);
         cerrarIngresoPassword.setVisibility(v.VISIBLE);
         confirmar.setVisibility(v.VISIBLE);
