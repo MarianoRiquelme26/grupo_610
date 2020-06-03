@@ -119,7 +119,7 @@ public class Alarama extends AppCompatActivity implements SensorEventListener {
                                                      @Override
                                                     public void onClick(View v)
                                                      {
-
+                                                        activarAlarma.setEnabled(false);
                                                         cuentaRegresiva(10000);
                                                      }
                                              });
