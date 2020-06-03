@@ -16,18 +16,20 @@
     <string name="DNI">Dni</string>
     <string name="Email">Email</string>
     <string name="Password">Password</string>
+    <string name="Cerrar">Cerrar</string>
+
     <!-- *************************************-->
     <string name="AlarmaActivada">Alarma Activada</string>
     <string name="ContadorActivacion">La alarma se activara en</string>
     <string name="Activar">Activar</string>
     <string name="msjSinConexion">Sin conexion a internet, intente luego</string>
-
+    <string name="IngresePasswordPararAlarma">Ingrese la password para parar Alarma</string>
     <string name="pantallaLogin">Bienvendio al Login</string>
     <string name="user">Nombre</string>
     <string name="logearse">iniciar</string>
-
     <string name="historial">Historial actividad</string>
     <string name="btnHistorial">Historial</string>
+    <string name="confirmar">Confirmar</string>
 
 
 </resources>

@@ -37,6 +37,7 @@
             </intent-filter>
             -->
         </activity>
+        <service android:name="servicios.AlarmaSilenciosaa"/>
     </application>
 
 </manifest>
