@@ -26,7 +26,8 @@
     <string name="user">Nombre</string>
     <string name="logearse">iniciar</string>
 
-
+    <string name="historial">Historial actividad</string>
+    <string name="btnHistorial">Historial</string>
 
 
 </resources>
