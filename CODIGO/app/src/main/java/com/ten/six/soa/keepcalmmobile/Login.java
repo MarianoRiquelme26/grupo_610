@@ -33,7 +33,7 @@ public class Login extends AppCompatActivity {
         else//no tendria que llegar a esta etapa que quiere loguearse y no hay datos, tendria que frenarlo la pantalla anterior
             alu = new AlumnoDTO();
 
-        this.nombre.setText(alu.getName());
+        this.nombre.setText("Hola "+alu.getName());
 
 
     }
@@ -44,14 +44,15 @@ public class Login extends AppCompatActivity {
         ServiceTask servidorSOA = new ServiceTask(this, "http://so-unlam.net.ar/api/api/login",alu);
         servidorSOA.execute();
 
-        //GUARDO EL ULTIMO TOKEN EL LOGIN PARA USARLO CUANDO NECESIE REGISTRAR EVENTOS
+        /*GUARDO EL ULTIMO TOKEN EL LOGIN PARA USARLO CUANDO NECESIE REGISTRAR EVENTOS
         SharedPreferences preferences = getSharedPreferences("datoUsuario", Context.MODE_PRIVATE);
         SharedPreferences.Editor objEditor = preferences.edit();// indico que voy a editar el archivo SharedPreferences
-        objEditor.putString("token",servidorSOA.getToken());
+        objEditor.putString("token",servidorSOA.getToken()); // esto lo voy a tener q migrar
         objEditor.commit();
 
 
         Intent funcionalidad = new Intent(this, Funcionalidades.class);
         startActivity(funcionalidad);
+        */
     }
 }

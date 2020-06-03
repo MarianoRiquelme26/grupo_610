@@ -24,7 +24,7 @@
     <string name="Activar">Activar</string>
     <string name="msjSinConexion">Sin conexion a internet, intente luego</string>
     <string name="IngresePasswordPararAlarma">Ingrese la password para parar Alarma</string>
-    <string name="pantallaLogin">Login</string>
+    <string name="pantallaLogin">Bienvendio al Login</string>
     <string name="user">Nombre</string>
     <string name="logearse">iniciar</string>
     <string name="confirmar">Confirmar</string>

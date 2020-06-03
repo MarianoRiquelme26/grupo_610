@@ -2,7 +2,9 @@ package com.ten.six.soa.keepcalmmobile;
 
 import com.google.gson.Gson;
 
-public class RegistroLoginEventoRspDTO {
+import java.io.Serializable;
+
+public class RegistroLoginEventoRspDTO implements  Serializable {
     private String state;
     private String env;
     private AlumnoDTO user;
