@@ -25,4 +25,9 @@ public class Funcionalidades extends AppCompatActivity {
         Intent alarmaSilenciosa = new Intent(this, AlarmaSilenciosa.class);
         startActivity(alarmaSilenciosa);
     }
+
+    public void verHistorial(View view){
+        Intent Historial = new Intent(this, Historial.class);
+        startActivity(Historial);
+    }
 }

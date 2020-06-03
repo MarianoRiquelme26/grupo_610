@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">KeepCalmMovile</string>
+    <string name="app_name">KeepCalmMobile</string>
     <string name="mensaje1">Pantalla de registro</string>
     <string name="BtnRegistro">Registrarse</string>
     <string name="BtnLogin">Login</string>
@@ -27,6 +27,8 @@
     <string name="pantallaLogin">Bienvendio al Login</string>
     <string name="user">Nombre</string>
     <string name="logearse">iniciar</string>
+    <string name="historial">Historial actividad</string>
+    <string name="btnHistorial">Historial</string>
     <string name="confirmar">Confirmar</string>
 
 

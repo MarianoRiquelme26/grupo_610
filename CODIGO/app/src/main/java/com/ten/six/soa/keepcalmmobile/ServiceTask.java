@@ -89,7 +89,7 @@ public class ServiceTask extends AsyncTask<Void,Void,String> {
             urlConnection.setRequestProperty("Content-Type", "application/json");
             if(apiREST.contains("event")){
                 Log.e("MARIAN", "evento token: "+ token);
-                if(!(this.token == null))
+                if(!(this.token == null)&&!"".equals(""))
                     urlConnection.setRequestProperty("token", token);
                 else
                     urlConnection.setRequestProperty("token", tokenb);

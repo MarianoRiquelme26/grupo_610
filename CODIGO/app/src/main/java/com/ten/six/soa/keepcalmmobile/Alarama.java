@@ -273,6 +273,13 @@ public class Alarama extends AppCompatActivity implements SensorEventListener {
             evento = new RegistrarEventDTO("SENSOR","ACTIVO","Alarma sonora activada - Ayuda!! me estan robando");
             servidorSOA.setReqOriginal(evento);
             servidorSOA.execute();
+            //SharedPreferences preferences1 = getSharedPreferences("historial", Context.MODE_PRIVATE);
+            SharedPreferences preferences2 = getSharedPreferences("historial", Context.MODE_PRIVATE);
+            String notasAux = preferences2.getString("notas","");
+            SharedPreferences.Editor objEditor = preferences2.edit();// indico que voy a editar el archivo SharedPreferences
+            objEditor.putString("notas",notasAux+"-"+System.currentTimeMillis()+"Alarma-Sonora-MeRoban,");
+            objEditor.commit();
+//SystemClock.currentGnssTimeClock()
         }
 
     }
