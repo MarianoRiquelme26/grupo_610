@@ -3,13 +3,17 @@ package com.ten.six.soa.keepcalmmobile;
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
+import android.app.Service;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.SystemClock;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.sql.Time;
@@ -33,35 +37,48 @@ import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.Button;
 
+
 import static com.ten.six.soa.keepcalmmobile.R.id.acelerometro;
 
 public class Alarama extends AppCompatActivity implements SensorEventListener {
 
     private SensorManager mSensorManager;
-    private TextView acelerometro;
+    private TextView acelerometro, rectanguloPararAlarma, ingresePasswordPararContraseña, password;
+    private Button activarAlarma ,desActivarAlarma, confirmar;
+    private ImageView cerrarIngresoPassword;
     private TextView contador;
     private boolean alarmaOn=false;
     private float x , y, z;
     private double tolerancia=0.5;
     private int tiempoContador=10;
-    MediaPlayer alertaMediaPlayer;
-    RegistrarEventDTO evento;
-    ServiceTask servidorSOA;
-    boolean eventoRegistrado;
+    private MediaPlayer alertaMediaPlayer;
+    private RegistrarEventDTO evento;
+    private ServiceTask servidorSOA;
+    private boolean eventoRegistrado;
+    private SharedPreferences preferences;
+    private Service alarmasilenciosa;
 
 
     DecimalFormat         dosdecimales = new DecimalFormat("###.###");
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarama);
-         alertaMediaPlayer = MediaPlayer.create(this, R.raw.sonidoalarma);
+        preferences = getSharedPreferences("datoUsuario", Context.MODE_PRIVATE);
+        alertaMediaPlayer = MediaPlayer.create(this, R.raw.sonidoalarma);
 
-        Button activarAlarma = (Button) findViewById(R.id.button6);
-        Button desActivarAlarma = (Button) findViewById(R.id.button4);
+        activarAlarma = (Button) findViewById(R.id.button6);
+        desActivarAlarma = (Button) findViewById(R.id.button4);
+
         acelerometro = (TextView) findViewById(R.id.acelerometro);
         contador = (TextView) findViewById(R.id.contador);
+        rectanguloPararAlarma = (TextView) findViewById(R.id.rectanguloPararAlarma);
+        ingresePasswordPararContraseña = (TextView) findViewById(R.id.ingresePasswordPararContraseña);
+        password= (TextView) findViewById(R.id.password);
+        cerrarIngresoPassword = findViewById(R.id.cerrarIngresoPassword);
+        confirmar = (Button) findViewById(R.id.confirmar);
 
         servidorSOA = new ServiceTask(this, "http://so-unlam.net.ar/api/api/event");
         eventoRegistrado = false;
@@ -69,10 +86,39 @@ public class Alarama extends AppCompatActivity implements SensorEventListener {
 
         // Accedemos al servicio de sensores
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+
+        //oculto todo si cancelo el ingreso de contraseña
+        cerrarIngresoPassword.setOnClickListener( new OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                rectanguloPararAlarma.setVisibility(v.INVISIBLE);
+                ingresePasswordPararContraseña.setVisibility(v.INVISIBLE);
+                password.setVisibility(v.INVISIBLE);
+                cerrarIngresoPassword.setVisibility(v.INVISIBLE);
+                confirmar.setVisibility(v.INVISIBLE);
+
+            }
+        });
+        confirmar.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(password.getText().toString().equals((preferences.getString("password","")))){
+                    alarmaOn=false;
+                    alertaMediaPlayer.stop();
+                    contador.setText("ALARMA DESACTIVADA");
+                    onBackPressed();
+                }
+
+            }
+        });
+
         activarAlarma.setOnClickListener(new OnClickListener() {
                                                      @Override
                                                     public void onClick(View v)
                                                      {
+
                                                         cuentaRegresiva(10000);
                                                      }
                                              });
@@ -80,6 +126,7 @@ public class Alarama extends AppCompatActivity implements SensorEventListener {
             @Override
             public void onClick(View v)
             {
+
                 pararAlarma(v);
             }
         });
@@ -107,6 +154,9 @@ public class Alarama extends AppCompatActivity implements SensorEventListener {
 
             @Override
             public void onFinish() {
+                desActivarAlarma.setVisibility(View.VISIBLE);
+                activarAlarma.setVisibility(View.VISIBLE);
+
                 contador.setText("ALARMA ACTIVADA");
                 alarmaOn = true;
             }
@@ -115,12 +165,16 @@ public class Alarama extends AppCompatActivity implements SensorEventListener {
     }
 
     //Metodo para volver a la pantalla de funcionalidades
-    public void pararAlarma(View view){
+    public void pararAlarma(View v){
         //HAY QUE PEDIR CONTRASEÑA ANTES
-        alarmaOn=false;
-        alertaMediaPlayer.stop();
-        contador.setText("ALARMA DESACTIVADA");
-        super.onBackPressed();
+        activarAlarma.setVisibility(v.INVISIBLE);
+        desActivarAlarma.setVisibility(v.INVISIBLE);
+        rectanguloPararAlarma.setVisibility(v.VISIBLE);
+        ingresePasswordPararContraseña.setVisibility(v.VISIBLE);
+        password.setVisibility(v.VISIBLE);
+        cerrarIngresoPassword.setVisibility(v.VISIBLE);
+        confirmar.setVisibility(v.VISIBLE);
+
         /*Intent pararAlarma = new Intent(this, Funcionalidades.class);
         startActivity(pararAlarma);*/
     }
