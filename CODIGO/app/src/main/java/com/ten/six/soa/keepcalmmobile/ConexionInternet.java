@@ -23,7 +23,7 @@ public class ConexionInternet extends AppCompatActivity {
         ConnectivityManager connMgr = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected())
-            mensaje.setText("Bienvenido a keepcalmmobile");
+            mensaje.setText("Bienvenido a KeepCalmMobile");
 
         new Handler().postDelayed(new Runnable() {
             @Override

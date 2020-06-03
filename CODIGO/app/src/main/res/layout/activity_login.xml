@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Login">
+    tools:context=".Login"
+    android:background="#202732">
 
     <TextView
         android:id="@+id/textView6"
@@ -37,6 +38,7 @@
         android:ems="10"
         android:hint="@string/Password"
         android:inputType="textPassword"
+        android:backgroundTint="@color/colorAccent"
         app:layout_constraintBottom_toTopOf="@+id/button9"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -44,10 +46,11 @@
 
     <Button
         android:id="@+id/button9"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:onClick="Funcionalidades"
         android:text="@string/logearse"
+        android:background="@drawable/boton_mio1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
