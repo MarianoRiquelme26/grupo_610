@@ -26,7 +26,7 @@ public class AlumnoDTO implements IRequest, Serializable {
     }
 
     public AlumnoDTO(String name, String lastname, String dni, String email, String password) {
-        this.env = "TEST";
+        this.env = "DEV";
         this.name = name;
         this.lastname = lastname;
         this.dni = Integer.valueOf(dni);
@@ -36,7 +36,7 @@ public class AlumnoDTO implements IRequest, Serializable {
         this.group = 610;
     }
     public AlumnoDTO() {
-        this.env = "TEST";
+        this.env = "DEV";
         this.commission =3900;
         this.group = 610;
         this.name="";
