@@ -235,8 +235,8 @@ public class Alarama extends AppCompatActivity implements SensorEventListener {
                                 ) {
                             acelerometro.setText("Alerta Alarma");
                             alertaMediaPlayer.start();
-
-                            registrarEvento();
+                            String msj = " x: "+x+", y: "+y+", z: "+z;
+                            registrarEvento(msj);
 
                         }
                     }
@@ -300,13 +300,13 @@ public class Alarama extends AppCompatActivity implements SensorEventListener {
 
         Ini_Sensores();
     }
-    public void registrarEvento(){
+    public void registrarEvento(String valores){
 
         if(!this.eventoRegistrado){
             Date fecha = new Date();
             enviarMensaje();
             this.eventoRegistrado = true;
-            evento = new RegistrarEventDTO("SENSOR","ACTIVO","Alarma sonora activada - Ayuda!! me estan robando");
+            evento = new RegistrarEventDTO("SENSOR","ACTIVO","Alarma sonora activada - "+fecha.toString()+valores);
             servidorSOA.setReqOriginal(evento);
             servidorSOA.execute();
             SharedPreferences preferences2 = getSharedPreferences("historial", Context.MODE_PRIVATE);

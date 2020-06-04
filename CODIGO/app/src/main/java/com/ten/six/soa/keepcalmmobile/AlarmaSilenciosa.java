@@ -101,7 +101,7 @@ public class AlarmaSilenciosa extends AppCompatActivity implements SensorEventLi
                     vibrador.vibrate(1000);
                     alarmaSilenciosaActivada=true;
                     Log.e("Gaston","activo alarma");
-                    registrarEvento();
+                    registrarEvento(contador);
                     conteo.cancel();
                     conteo.purge();
 
@@ -188,13 +188,13 @@ public class AlarmaSilenciosa extends AppCompatActivity implements SensorEventLi
 
     }
 
-    public void registrarEvento() {
+    public void registrarEvento(int contador) {
 
         if (!this.eventoRegistrado) {
             Date fecha = new Date();
             enviarMensaje();
             this.eventoRegistrado = true;
-            evento = new RegistrarEventDTO("SENSOR", "ACTIVO", "Alarma silenciosa activada - Ayuda!! me estan secruestando, no puedo hablar");
+            evento = new RegistrarEventDTO("SENSOR", "ACTIVO", "Alarma silenciosa activada -"+fecha.toString()+  "- contador: "+contador);
             servidorSOA.setReqOriginal(evento);
             servidorSOA.execute();
             SharedPreferences preferences2 = getSharedPreferences("historial", Context.MODE_PRIVATE);
