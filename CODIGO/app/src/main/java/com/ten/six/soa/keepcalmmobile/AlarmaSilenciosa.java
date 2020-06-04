@@ -65,7 +65,7 @@ public class AlarmaSilenciosa extends AppCompatActivity implements SensorEventLi
             @Override
             public void run() {
                 if(contador>=3){
-                    alarmaActivada.setVisibility(View.VISIBLE);
+                    //alarmaActivada.setVisibility(View.VISIBLE);
                     alarmaSilenciosaActivada=true;
                     Log.e("Gaston","activo alarma");
                     conteo.cancel();
