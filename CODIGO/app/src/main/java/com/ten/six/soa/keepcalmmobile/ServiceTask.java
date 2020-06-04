@@ -160,6 +160,9 @@ public class ServiceTask extends AsyncTask<Void,Void,String> {
                 objEditor.putString("token",this.token);
                 objEditor.commit();
                 Log.e("MARIAN", "se guardo token: "+ token);
+                //cierro la pantalla de login
+                Login log = (Login)httpContext;
+                log.finish();
             }
 
             if(this.linkrequestAPI.contains("register")){
@@ -172,6 +175,9 @@ public class ServiceTask extends AsyncTask<Void,Void,String> {
                 objEditor.putString("email",alu.getEmail());
                 objEditor.putString("password",alu.getPassword());
                 objEditor.commit();
+
+                Registro reg = (Registro)httpContext;
+                reg.finish();
             }
             if(!this.linkrequestAPI.contains("event")){
                 Intent funcionalidad = new Intent(httpContext, Funcionalidades.class);
@@ -179,8 +185,11 @@ public class ServiceTask extends AsyncTask<Void,Void,String> {
             }
 
         }
-        else
+        else{
             Toast.makeText(httpContext,"valores incorrectos, vuelva a intentarlo ",Toast.LENGTH_LONG).show();
+
+        }
+
 
     }
 
