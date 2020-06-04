@@ -11,6 +11,7 @@
     <string name="mensaje4">Alarma Silenciosa Activa</string>
     <string name="BtnPararAlarmaSilenciosa">Parar</string>
     <string name="Guardar">Guardar</string>
+    <string name="MensajeTexto">Ayuda me estan robando!</string>
 
     <!-- NOMBRE DE CAMPOS A REGISTRAR -->
     <string name="Nombre">Nombre</string>
