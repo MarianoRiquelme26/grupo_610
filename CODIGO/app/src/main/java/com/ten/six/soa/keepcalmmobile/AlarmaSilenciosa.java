@@ -9,6 +9,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -24,12 +25,13 @@ public class AlarmaSilenciosa extends AppCompatActivity implements SensorEventLi
     private boolean iniciarconteodevuleta = false   ;
     private Button desActivarAlarma;
     private TextView alarmaActivada;
-
+    private Vibrator vibrador;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarma_silenciosa);
         alarmaActivada = (TextView) findViewById(R.id.textActivada);
+        vibrador = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         desActivarAlarma = (Button) findViewById(R.id.button5);
         desActivarAlarma.setOnClickListener(new View.OnClickListener() {
 
@@ -66,6 +68,7 @@ public class AlarmaSilenciosa extends AppCompatActivity implements SensorEventLi
             public void run() {
                 if(contador>=3){
                     //alarmaActivada.setVisibility(View.VISIBLE);
+                    vibrador.vibrate(1000);
                     alarmaSilenciosaActivada=true;
                     Log.e("Gaston","activo alarma");
                     conteo.cancel();
