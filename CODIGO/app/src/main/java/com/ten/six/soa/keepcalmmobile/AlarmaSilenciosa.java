@@ -2,7 +2,9 @@ package com.ten.six.soa.keepcalmmobile;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -24,6 +26,9 @@ public class AlarmaSilenciosa extends AppCompatActivity implements SensorEventLi
     private boolean iniciarconteodevuleta = false   ;
     private Button desActivarAlarma;
     private TextView alarmaActivada;
+    private boolean eventoRegistrado;
+    private ServiceTask servidorSOA;
+    private RegistrarEventDTO evento;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +36,8 @@ public class AlarmaSilenciosa extends AppCompatActivity implements SensorEventLi
         setContentView(R.layout.activity_alarma_silenciosa);
         alarmaActivada = (TextView) findViewById(R.id.textActivada);
         desActivarAlarma = (Button) findViewById(R.id.button5);
+        servidorSOA = new ServiceTask(this, "http://so-unlam.net.ar/api/api/event");
+        eventoRegistrado = false;
         desActivarAlarma.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -68,6 +75,7 @@ public class AlarmaSilenciosa extends AppCompatActivity implements SensorEventLi
                     //alarmaActivada.setVisibility(View.VISIBLE);
                     alarmaSilenciosaActivada=true;
                     Log.e("Gaston","activo alarma");
+                    registrarEvento();
                     conteo.cancel();
                     conteo.purge();
                 }else
@@ -168,6 +176,23 @@ public class AlarmaSilenciosa extends AppCompatActivity implements SensorEventLi
 
         Ini_Sensores();
 
+    }
+
+    public void registrarEvento() {
+
+        if (!this.eventoRegistrado) {
+            this.eventoRegistrado = true;
+            evento = new RegistrarEventDTO("SENSOR", "ACTIVO", "Alarma silenciosa activada - Ayuda!! me estan secruestando, no puedo hablar");
+            servidorSOA.setReqOriginal(evento);
+            servidorSOA.execute();
+            //SharedPreferences preferences1 = getSharedPreferences("historial", Context.MODE_PRIVATE);
+            SharedPreferences preferences2 = getSharedPreferences("historial", Context.MODE_PRIVATE);
+            String notasAux = preferences2.getString("notas", "");
+            SharedPreferences.Editor objEditor = preferences2.edit();// indico que voy a editar el archivo SharedPreferences
+            objEditor.putString("notas", notasAux + "-" + System.currentTimeMillis() + "Alarma-Silenciosa-MeSecuestran,");
+            objEditor.commit();
+//SystemClock.currentGnssTimeClock()
+        }
     }
 }
 
