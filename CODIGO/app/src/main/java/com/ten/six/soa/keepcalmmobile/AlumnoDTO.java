@@ -13,6 +13,7 @@ public class AlumnoDTO implements IRequest, Serializable {
     private String password;
     private int commission;
     private int group;
+    private String destino;
 
     public AlumnoDTO(String env, String name, String lastname, String dni, String email, String password, String commission, String group) {
         this.env = env;
@@ -26,7 +27,7 @@ public class AlumnoDTO implements IRequest, Serializable {
     }
 
     public AlumnoDTO(String name, String lastname, String dni, String email, String password) {
-        this.env = "TEST";
+        this.env = "DEV";
         this.name = name;
         this.lastname = lastname;
         this.dni = Integer.valueOf(dni);
@@ -36,10 +37,17 @@ public class AlumnoDTO implements IRequest, Serializable {
         this.group = 610;
     }
     public AlumnoDTO() {
-        this.env = "TEST";
+        this.env = "DEV";
         this.commission =3900;
         this.group = 610;
         this.name="";
+        this.destino = "";
+    }
+    public String getDestino(){
+        return this.destino;
+    }
+    public void setDestino(String d){
+        this.destino = d;
     }
 
     public String toJson() {

@@ -9,6 +9,8 @@ import android.os.StrictMode;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -144,15 +146,21 @@ public class ServiceTask extends AsyncTask<Void,Void,String> {
         if(esOk){
 
             if(this.linkrequestAPI.contains("login")){
+                AlumnoDTO alu = (AlumnoDTO) reqOriginal;
                 Log.e("MARIAN", "guardando el token: "+ token);
                 SharedPreferences preferences = httpContext.getSharedPreferences("datoUsuario", Context.MODE_PRIVATE);
                 SharedPreferences.Editor objEditor = preferences.edit();// indico que voy a editar el archivo SharedPreferences
+                objEditor.putString("nombre",alu.getName());
+                objEditor.putString("apellido",alu.getLastname());
+                objEditor.putString("dni",alu.getDniToString());
+                objEditor.putString("email",alu.getEmail());
+                objEditor.putString("password",alu.getPassword());
                 objEditor.putString("token",this.token);
                 objEditor.commit();
                 Log.e("MARIAN", "se guardo token: "+ token);
                 //cierro la pantalla de login
-                Login log = (Login)httpContext;
-                log.finish();
+               //Login log = (Login)httpContext;
+                //log.finish();
             }
 
             if(this.linkrequestAPI.contains("register")){
@@ -166,9 +174,11 @@ public class ServiceTask extends AsyncTask<Void,Void,String> {
                 objEditor.putString("password",alu.getPassword());
                 objEditor.commit();
 
-                Registro reg = (Registro)httpContext;
-                reg.finish();
+
+                //Registro reg = (Registro)httpContext;
+                //reg.finish();
             }
+
             if(!this.linkrequestAPI.contains("event")){
                 Intent funcionalidad = new Intent(httpContext, Funcionalidades.class);
                 httpContext.startActivity(funcionalidad);
@@ -177,6 +187,23 @@ public class ServiceTask extends AsyncTask<Void,Void,String> {
         }
         else{
             Toast.makeText(httpContext,"valores incorrectos, vuelva a intentarlo ",Toast.LENGTH_LONG).show();
+
+        }
+
+
+        //Login log = (Login)httpContext;
+        //log.finish();
+
+        //Registro reg = (Registro)httpContext;
+        //reg.finish();
+
+        if(httpContext instanceof Registro ){
+            Registro reg = (Registro)httpContext;
+            reg.finish();
+        }
+        if(httpContext instanceof Login ) {
+            Login log = (Login)httpContext;
+            log.finish();
 
         }
 

@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
             finish(); // con esta linea, sale de la app
             System.exit(0);
         }
-
+/*
         if(!alu.isEmpty()){
             btonDialogo = (Button) findViewById(R.id.btnReg);
             btonDialogo.setOnClickListener(new View.OnClickListener() {
@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
-
+*/
     }
 
     public void irRegistro(View view){
@@ -141,16 +141,21 @@ public class MainActivity extends AppCompatActivity {
 
     public void irLogin(View view){
         if(hayConexion()){
-            Intent Login = new Intent(this, Login.class);
-            //SI EXISTE INFORMACION GUARDAD SE ENVIA CARGA PARA ENVIAR A LA SIGUIENTE ACTIVITY
-            Log.e("MARIAN", "valido si alu es vacio");
+            Intent Login;
             if(!alu.isEmpty()){
+                Login = new Intent(this, Login.class);
+                //SI EXISTE INFORMACION GUARDAD SE ENVIA CARGA PARA ENVIAR A LA SIGUIENTE ACTIVITY
+                Log.e("MARIAN", "valido si alu es vacio");
+                Login.putExtra("AlumnoDTO",alu);
+
+            }
+            else{
+                alu.setDestino("http://so-unlam.net.ar/api/api/login");
+                Login = new Intent(this, Registro.class);
                 Login.putExtra("AlumnoDTO",alu);
             }
-            else
-                Log.e("MARIAN", "no se carga nada al intent");
-
             startActivity(Login);
+
         }
         else
             mesajeSinConexion();

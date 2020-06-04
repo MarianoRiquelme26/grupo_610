@@ -59,9 +59,15 @@ public class Registro extends AppCompatActivity {
         alu.setDnifromString(dni.getText().toString());
         alu.setEmail(email.getText().toString());
         alu.setPassword(password.getText().toString());
+        ServiceTask servidorSOA;
+        Log.e("MARIAN", "destino es "+alu.getDestino());
+        if( alu.getDestino() == null || alu.getDestino().equals(""))
+            servidorSOA = new ServiceTask(this, "http://so-unlam.net.ar/api/api/register",alu);
+        else
+            servidorSOA = new ServiceTask(this, alu.getDestino(),alu);
 
         //ENVIO EL REGISTRO AL SERVER
-        ServiceTask servidorSOA = new ServiceTask(this, "http://so-unlam.net.ar/api/api/register",alu);
+
         servidorSOA.execute();
     }
 }
