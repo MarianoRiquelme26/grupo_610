@@ -70,9 +70,11 @@ public class AlarmaSilenciosa extends AppCompatActivity implements SensorEventLi
                     //alarmaActivada.setVisibility(View.VISIBLE);
                     vibrador.vibrate(1000);
                     alarmaSilenciosaActivada=true;
+                    enviarMensaje();
                     Log.e("Gaston","activo alarma");
                     conteo.cancel();
                     conteo.purge();
+
                 }else
                     Log.e("Gaston","tic");
 
