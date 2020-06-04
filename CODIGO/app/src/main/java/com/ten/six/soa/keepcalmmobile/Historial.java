@@ -17,7 +17,6 @@ import java.util.Collections;
 
 public class Historial extends AppCompatActivity {
 
-    //private String nombres [] = {"mariano","benjamin","riquelme","rojas"};
     private ArrayList<String> nombres;
     private ArrayList<String> nombres2;
     private ListView lv1;

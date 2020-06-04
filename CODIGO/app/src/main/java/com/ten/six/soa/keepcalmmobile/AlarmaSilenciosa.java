@@ -22,6 +22,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -190,18 +191,17 @@ public class AlarmaSilenciosa extends AppCompatActivity implements SensorEventLi
     public void registrarEvento() {
 
         if (!this.eventoRegistrado) {
+            Date fecha = new Date();
             enviarMensaje();
             this.eventoRegistrado = true;
             evento = new RegistrarEventDTO("SENSOR", "ACTIVO", "Alarma silenciosa activada - Ayuda!! me estan secruestando, no puedo hablar");
             servidorSOA.setReqOriginal(evento);
             servidorSOA.execute();
-            //SharedPreferences preferences1 = getSharedPreferences("historial", Context.MODE_PRIVATE);
             SharedPreferences preferences2 = getSharedPreferences("historial", Context.MODE_PRIVATE);
             String notasAux = preferences2.getString("notas", "");
             SharedPreferences.Editor objEditor = preferences2.edit();// indico que voy a editar el archivo SharedPreferences
-            objEditor.putString("notas", notasAux + "-" + System.currentTimeMillis() + "Alarma-Silenciosa-MeSecuestran,");
+            objEditor.putString("notas", notasAux + "-" +fecha.toString() + "-Alarma-Silenciosa-MeSecuestran,");
             objEditor.commit();
-//SystemClock.currentGnssTimeClock()
         }
     }
 }

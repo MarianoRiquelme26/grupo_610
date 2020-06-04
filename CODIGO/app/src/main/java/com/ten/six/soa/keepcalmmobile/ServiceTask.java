@@ -27,7 +27,8 @@ public class ServiceTask extends AsyncTask<Void,Void,String> {
     private  IRequest reqOriginal;
     private boolean esOk;
 
-    public String token;// = "$2y$10$mMBNTCENdsjIQS73Tsy/Nuu9SV2uMJxKNk2aKSnHft/UYfwpSEG8a";
+    public String token;
+    // UTILIZADO PARA HACER LAS PRUEBAS EN TEST
     public String tokenb = "$2y$10$mMBNTCENdsjIQS73Tsy/Nuu9SV2uMJxKNk2aKSnHft/UYfwpSEG8a";
 
     public ServiceTask(Context httpContext, String linkAPI, IRequest req){
@@ -64,9 +65,7 @@ public class ServiceTask extends AsyncTask<Void,Void,String> {
         StrictMode.ThreadPolicy policy=new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        /*
-        LEVANTO EL TOKEN POR LAS DUDAS
-         */
+
         SharedPreferences preferences = this.httpContext.getSharedPreferences("datoUsuario", Context.MODE_PRIVATE);
         this.token = preferences.getString("token","");
         Log.e("MARIAN", "levanto el token: "+  preferences.getString("token",""));
@@ -74,15 +73,6 @@ public class ServiceTask extends AsyncTask<Void,Void,String> {
         try{
             url = new URL(apiREST);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            /*
-            if(!apiREST.contains("event"))
-                request = (AlumnoDTO) reqOriginal;
-            else
-                request = (RegistrarEventDTO) reqOriginal;
-                //request = new RegistrarEventDTO("TEST","estos son test del team 610","Activo","Flaaaaaaaaaaaaaandeeeeeeeeers ... presta atencion");
-
-            */
-
             urlConnection.setRequestMethod("POST");
             urlConnection.setDoInput(true);
             urlConnection.setDoOutput(true);

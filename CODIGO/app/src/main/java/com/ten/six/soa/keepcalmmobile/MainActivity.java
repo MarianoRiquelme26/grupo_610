@@ -32,16 +32,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-
-        /*
-        this.nombre = (EditText)findViewById(R.id.editText);
-        this.apellido = (EditText)findViewById(R.id.editText2);
-        this.edad = (EditText)findViewById(R.id.editText3);
-        this.email = (EditText)findViewById(R.id.editText4);
-        this.password = (EditText)findViewById(R.id.editText5);
-        */
         // BUSCO SI EXISTEN DATOS PREVIOS GUARDADOS
         SharedPreferences preferences = getSharedPreferences("datoUsuario", Context.MODE_PRIVATE);
         if(!preferences.getString("nombre","").equals("")){
@@ -57,19 +47,12 @@ public class MainActivity extends AppCompatActivity {
             Log.e("MARIAN", "No habia info");
         }
 
-        /*CODIGO MIGRADO
-        this.nombre.setText(preferences.getString("nombre",""));
-        this.apellido.setText(preferences.getString("apellido",""));
-        this.dni.setText(preferences.getString("dni",""));
-        this.email.setText(preferences.getString("email",""));
-        this.password.setText(preferences.getString("password",""));
-        */
         connMgr = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
         if( !(networkInfo != null && networkInfo.isConnected()) ){
             finish(); // con esta linea, sale de la app
-            System.exit(0);// validar diferencia entre tener esta linea o no
+            System.exit(0);
         }
 
         if(!alu.isEmpty()){
@@ -136,25 +119,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-
-    //Metodo para pasar a la pantalla de funcionalidades
-    /*COGIDO MIGRADO
-     public void Funcionalidades(View view){
-
-        // GUARDO LA INFORMACION DEL USUARIO
-        SharedPreferences preferences = getSharedPreferences("datoUsuario", Context.MODE_PRIVATE);
-        SharedPreferences.Editor objEditor = preferences.edit();// indico que voy a editar el archivo SharedPreferences
-        objEditor.putString("nombre",nombre.getText().toString());
-        objEditor.putString("apellido",apellido.getText().toString());
-        objEditor.putString("edad",edad.getText().toString());
-        objEditor.putString("email",email.getText().toString());
-        objEditor.putString("password",password.getText().toString());
-        objEditor.commit();
-
-        Intent funcionalidad = new Intent(this, Funcionalidades.class);
-        startActivity(funcionalidad);
-    }
-     */
 
     public void irRegistro(View view){
         if(hayConexion()){

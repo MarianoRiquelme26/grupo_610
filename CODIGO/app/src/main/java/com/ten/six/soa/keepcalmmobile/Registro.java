@@ -34,7 +34,6 @@ public class Registro extends AppCompatActivity {
         Bundle bundle=getIntent().getExtras();
         if(bundle!=null){
             alu = (AlumnoDTO) bundle.getSerializable("AlumnoDTO");
-                //(AlumnoDTO) getIntent().getSerializableExtra("AlumnoDTO");
         }
         else
             alu = new AlumnoDTO();
@@ -54,16 +53,6 @@ public class Registro extends AppCompatActivity {
 
     public void Funcionalidades(View view){
 
-        /* GUARDO/ACTUALIZO LA INFORMACION DEL USUARIO
-        SharedPreferences preferences = getSharedPreferences("datoUsuario", Context.MODE_PRIVATE);
-        SharedPreferences.Editor objEditor = preferences.edit();// indico que voy a editar el archivo SharedPreferences
-        objEditor.putString("nombre",nombre.getText().toString());
-        objEditor.putString("apellido",apellido.getText().toString());
-        objEditor.putString("dni",dni.getText().toString());
-        objEditor.putString("email",email.getText().toString());
-        objEditor.putString("password",password.getText().toString());
-        objEditor.commit();
-
         //CARGO LOS DATOS DEL ALUMNO PARA ENVIAR A REGISTRAR*/
         alu.setName(nombre.getText().toString());
         alu.setLastname(apellido.getText().toString());
@@ -74,13 +63,5 @@ public class Registro extends AppCompatActivity {
         //ENVIO EL REGISTRO AL SERVER
         ServiceTask servidorSOA = new ServiceTask(this, "http://so-unlam.net.ar/api/api/register",alu);
         servidorSOA.execute();
-/*
-        Intent funcionalidad = new Intent(this, Funcionalidades.class);
-        startActivity(funcionalidad);*/
     }
 }
-/*
-SE PODRIA MEJORAR LA LOGICA PARA EL PASAJE DE LOS DATOS GUARDADOS ENTRE MAIN Y REGISTRO, PODRIA
-CARGAR SIEMPRE EL ALUMNO, VACIO Y NO HAY INFO, O CON DATOS EN CASO NECSARIO Y SIMPERE PASAR ALUMNO
-A REGISTRO
- */

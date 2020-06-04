@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 import java.sql.Time;
 import java.text.DecimalFormat;
+import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -200,8 +201,6 @@ public class Alarama extends AppCompatActivity implements SensorEventListener {
         cerrarIngresoPassword.setVisibility(v.VISIBLE);
         confirmar.setVisibility(v.VISIBLE);
 
-        /*Intent pararAlarma = new Intent(this, Funcionalidades.class);
-        startActivity(pararAlarma);*/
     }
 
     protected void Ini_Sensores() {
@@ -304,18 +303,17 @@ public class Alarama extends AppCompatActivity implements SensorEventListener {
     public void registrarEvento(){
 
         if(!this.eventoRegistrado){
+            Date fecha = new Date();
             enviarMensaje();
             this.eventoRegistrado = true;
             evento = new RegistrarEventDTO("SENSOR","ACTIVO","Alarma sonora activada - Ayuda!! me estan robando");
             servidorSOA.setReqOriginal(evento);
             servidorSOA.execute();
-            //SharedPreferences preferences1 = getSharedPreferences("historial", Context.MODE_PRIVATE);
             SharedPreferences preferences2 = getSharedPreferences("historial", Context.MODE_PRIVATE);
             String notasAux = preferences2.getString("notas","");
             SharedPreferences.Editor objEditor = preferences2.edit();// indico que voy a editar el archivo SharedPreferences
-            objEditor.putString("notas",notasAux+"-"+System.currentTimeMillis()+"Alarma-Sonora-MeRoban,");
+            objEditor.putString("notas",notasAux+"-"+fecha.toString()+"-Alarma-Sonora-MeRoban,");
             objEditor.commit();
-//SystemClock.currentGnssTimeClock()
         }
 
     }
