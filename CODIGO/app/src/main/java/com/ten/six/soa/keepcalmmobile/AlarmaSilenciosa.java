@@ -100,13 +100,13 @@ public class AlarmaSilenciosa extends AppCompatActivity implements SensorEventLi
                     //alarmaActivada.setVisibility(View.VISIBLE);
                     vibrador.vibrate(1000);
                     alarmaSilenciosaActivada=true;
-                    Log.e("Gaston","activo alarma");
+                    Log.e("KeepCalmMobile","activo alarma");
                     registrarEvento(contador);
                     conteo.cancel();
                     conteo.purge();
 
                 }else
-                    Log.e("Gaston","tic");
+                    Log.e("KeepCalmMobile","tic");
 
             }
         },0,3000);
@@ -117,7 +117,7 @@ public class AlarmaSilenciosa extends AppCompatActivity implements SensorEventLi
             sms.sendTextMessage(numero1Contacto,null, "Ayuda me estan robando!",null, null);
             sms.sendTextMessage(numero2Contacto,null, "Ayuda me estan robando!",null, null);
         }catch (Exception e){
-            Log.e("Error", "No se pudo enviar mensaje");
+            Log.e("KeepCalmMobile", "No se pudo enviar mensaje a los contactos");
             e.printStackTrace();
         }
     }
@@ -135,7 +135,7 @@ public class AlarmaSilenciosa extends AppCompatActivity implements SensorEventLi
                 case Sensor.TYPE_PROXIMITY:
                     if (event.values[0] == 0) {
                         contador++;
-                        Log.e("Gaston","proximity");
+                        Log.e("KeepCalmMobile","proximity");
                     }
                     break;
             }

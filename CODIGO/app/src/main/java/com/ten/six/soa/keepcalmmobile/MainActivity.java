@@ -54,82 +54,18 @@ public class MainActivity extends AppCompatActivity {
             finish(); // con esta linea, sale de la app
             System.exit(0);
         }
-/*
-        if(!alu.isEmpty()){
-            btonDialogo = (Button) findViewById(R.id.btnReg);
-            btonDialogo.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(final View v) {
-
-                    AlertDialog.Builder alertaReg = new AlertDialog.Builder(MainActivity.this);
-                    alertaReg.setMessage("Ya esta registrado, desea volver a registrarse?")
-                            .setCancelable(false)
-                            .setPositiveButton("Si", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Toast.makeText(MainActivity.this,"podes actualizar datos",Toast.LENGTH_SHORT).show();
-                                    irRegistro(v);
-                                }
-                            })
-                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Toast.makeText(MainActivity.this,"por favor realice login",Toast.LENGTH_SHORT).show();
-                                    irLogin(v);
-                                    dialog.cancel();
-                                }
-                            });
-
-                    AlertDialog titulo = alertaReg.create();
-                    titulo.setTitle("Registro");
-                    titulo.show();
-                }
-            });
-        }
-        else{
-            btonDialogo = (Button) findViewById(R.id.button7);
-            btonDialogo.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(final View v) {
-
-                    AlertDialog.Builder alertaReg = new AlertDialog.Builder(MainActivity.this);
-                    alertaReg.setMessage("No esta registrado, por primera vez debe registrarse")
-                            .setCancelable(false)
-                            .setPositiveButton("Si", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Toast.makeText(MainActivity.this,"registrarse",Toast.LENGTH_SHORT).show();
-                                    irRegistro(v);
-                                }
-                            })
-                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Toast.makeText(MainActivity.this,"debe registrarse para continuar",Toast.LENGTH_SHORT).show();
-                                    dialog.cancel();
-                                }
-                            });
-
-                    AlertDialog titulo = alertaReg.create();
-                    titulo.setTitle("Login");
-                    titulo.show();
-                }
-            });
-        }
-
-*/
     }
 
     public void irRegistro(View view){
         if(hayConexion()){
             Intent registrarse = new Intent(this, Registro.class);
            //SI EXISTE INFORMACION GUARDAD SE ENVIA CARGA PARA ENVIAR A LA SIGUIENTE ACTIVITY
-            Log.e("MARIAN", "valido si alu es vacio");
+            Log.e("KeepCalmMobile", "valido si alu es vacio");
             if(!alu.isEmpty()){
                 registrarse.putExtra("AlumnoDTO",alu);
             }
             else
-                Log.e("MARIAN", "no se carga nada al intent");
+                Log.e("KeepCalmMobile", "no se carga nada al intent");
 
 
             startActivity(registrarse);
@@ -145,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
             if(!alu.isEmpty()){
                 Login = new Intent(this, Login.class);
                 //SI EXISTE INFORMACION GUARDAD SE ENVIA CARGA PARA ENVIAR A LA SIGUIENTE ACTIVITY
-                Log.e("MARIAN", "valido si alu es vacio");
+                Log.e("KeepCalmMobile", "valido si alu es vacio");
                 Login.putExtra("AlumnoDTO",alu);
 
             }

@@ -47,7 +47,7 @@ public class Registro extends AppCompatActivity {
             this.password.setText(alu.getPassword());
         }
         else
-            Log.e("MARIAN", "No se pasaron datos");
+            Log.e("KeepCalmMobile", "No se pasaron datos");
 
     }
 
@@ -60,7 +60,7 @@ public class Registro extends AppCompatActivity {
         alu.setEmail(email.getText().toString());
         alu.setPassword(password.getText().toString());
         ServiceTask servidorSOA;
-        Log.e("MARIAN", "destino es "+alu.getDestino());
+        Log.e("KeepCalmMobile", "destino es "+alu.getDestino());
         if( alu.getDestino() == null || alu.getDestino().equals(""))
             servidorSOA = new ServiceTask(this, "http://so-unlam.net.ar/api/api/register",alu);
         else

@@ -70,7 +70,7 @@ public class ServiceTask extends AsyncTask<Void,Void,String> {
 
         SharedPreferences preferences = this.httpContext.getSharedPreferences("datoUsuario", Context.MODE_PRIVATE);
         this.token = preferences.getString("token","");
-        Log.e("MARIAN", "levanto el token: "+  preferences.getString("token",""));
+        Log.e("KeepCalmMobile", "levanto el token: "+  preferences.getString("token",""));
         /////////////////////////////////////////////////////////////////////////////////////////////
         try{
             url = new URL(apiREST);
@@ -80,7 +80,7 @@ public class ServiceTask extends AsyncTask<Void,Void,String> {
             urlConnection.setDoOutput(true);
             urlConnection.setRequestProperty("Content-Type", "application/json");
             if(apiREST.contains("event")){
-                Log.e("MARIAN", "evento token: "+ token);
+                Log.e("KeepCalmMobile", "evento token: "+ token);
                 if(!(this.token == null)&&!"".equals(""))
                     urlConnection.setRequestProperty("token", token);
                 else
@@ -89,7 +89,7 @@ public class ServiceTask extends AsyncTask<Void,Void,String> {
             }
 
 
-            Log.e("MARIAN", "request: "+ reqOriginal.toJson());
+            Log.e("KeepCalmMobile", "request: "+ reqOriginal.toJson());
             OutputStream os = urlConnection.getOutputStream();
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os,"UTF-8"));
             writer.write(reqOriginal.toJson());
@@ -113,7 +113,7 @@ public class ServiceTask extends AsyncTask<Void,Void,String> {
                 result = sb.toString();
 
                 responseBody = RegistroLoginEventoRspDTO.toObjeto(result);
-                Log.e("MARIAN", "body: "+ responseBody.toJson());
+                Log.e("KeepCalmMobile", "body: "+ responseBody.toJson());
                 this.token = responseBody.getToken();
 
             }
@@ -123,10 +123,10 @@ public class ServiceTask extends AsyncTask<Void,Void,String> {
             }
 
         } catch (MalformedURLException e) {
-            Log.e("MARIAN"," MalformedURLException");
+            Log.e("KeepCalmMobile"," MalformedURLException");
             e.printStackTrace();
         } catch (IOException e) {
-            Log.e("MARIAN"," IOException");
+            Log.e("KeepCalmMobile"," IOException");
             e.printStackTrace();
         }
 
@@ -136,7 +136,7 @@ public class ServiceTask extends AsyncTask<Void,Void,String> {
 
     @Override
     protected void onPostExecute(String s){
-        Log.e("MARIAN"," onPostExecute: "+s);
+        Log.e("KeepCalmMobile"," onPostExecute: "+s);
         super.onPostExecute(s);
         if(!this.linkrequestAPI.contains("event"))
             progressDialog.dismiss();
@@ -147,7 +147,7 @@ public class ServiceTask extends AsyncTask<Void,Void,String> {
 
             if(this.linkrequestAPI.contains("login")){
                 AlumnoDTO alu = (AlumnoDTO) reqOriginal;
-                Log.e("MARIAN", "guardando el token: "+ token);
+                Log.e("KeepCalmMobile", "guardando el token: "+ token);
                 SharedPreferences preferences = httpContext.getSharedPreferences("datoUsuario", Context.MODE_PRIVATE);
                 SharedPreferences.Editor objEditor = preferences.edit();// indico que voy a editar el archivo SharedPreferences
                 objEditor.putString("nombre",alu.getName());
@@ -157,10 +157,8 @@ public class ServiceTask extends AsyncTask<Void,Void,String> {
                 objEditor.putString("password",alu.getPassword());
                 objEditor.putString("token",this.token);
                 objEditor.commit();
-                Log.e("MARIAN", "se guardo token: "+ token);
-                //cierro la pantalla de login
-               //Login log = (Login)httpContext;
-                //log.finish();
+                Log.e("KeepCalmMobile", "se guardo token: "+ token);
+
             }
 
             if(this.linkrequestAPI.contains("register")){
@@ -174,9 +172,6 @@ public class ServiceTask extends AsyncTask<Void,Void,String> {
                 objEditor.putString("password",alu.getPassword());
                 objEditor.commit();
 
-
-                //Registro reg = (Registro)httpContext;
-                //reg.finish();
             }
 
             if(!this.linkrequestAPI.contains("event")){
@@ -186,16 +181,12 @@ public class ServiceTask extends AsyncTask<Void,Void,String> {
 
         }
         else{
-            Toast.makeText(httpContext,"valores incorrectos, vuelva a intentarlo ",Toast.LENGTH_LONG).show();
+            if(!this.linkrequestAPI.contains("event"))
+                Toast.makeText(httpContext,"error accion, cambie los valores y vuelva a intertarlo o utilice otra opcion ",Toast.LENGTH_LONG).show();
+            else
+                Log.e("KeepCalmMobile", "error al registrar el evento en el servidor");
 
         }
-
-
-        //Login log = (Login)httpContext;
-        //log.finish();
-
-        //Registro reg = (Registro)httpContext;
-        //reg.finish();
 
         if(httpContext instanceof Registro ){
             Registro reg = (Registro)httpContext;

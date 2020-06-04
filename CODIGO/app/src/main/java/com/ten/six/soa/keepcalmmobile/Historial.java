@@ -34,7 +34,7 @@ public class Historial extends AppCompatActivity {
         notasAux = preferences2.getString("notas","");
 
         nombres2 = new ArrayList(Arrays.asList(notasAux.split(",")));
-        Log.e("MARIAN","recuper: "+generateBitacora(nombres2));
+        Log.e("KeepCalmMobile","recuper: "+generateBitacora(nombres2));
 
 
 
@@ -47,7 +47,7 @@ public class Historial extends AppCompatActivity {
         for(String linea : list){
             trama = trama+","+linea;
         }
-        Log.e("MARIAN2","trama generada "+trama.substring(1));
+        Log.e("KeepCalmMobile","trama generada "+trama.substring(1));
         return trama.substring(1);
     }
 }

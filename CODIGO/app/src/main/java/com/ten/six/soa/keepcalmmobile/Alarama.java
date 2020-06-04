@@ -43,6 +43,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.Toast;
 
 
 import static com.ten.six.soa.keepcalmmobile.R.id.acelerometro;
@@ -120,6 +121,8 @@ public class Alarama extends AppCompatActivity implements SensorEventListener {
                     contador.setText("ALARMA DESACTIVADA");
                     onBackPressed();
                 }
+                else
+                    Toast.makeText(Alarama.this,"Password incorrecto",Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -250,7 +253,7 @@ public class Alarama extends AppCompatActivity implements SensorEventListener {
             sms.sendTextMessage(numero1Contacto,null, "Ayuda me estan robando!",null, null);
             sms.sendTextMessage(numero2Contacto,null, "Ayuda me estan robando!",null, null);
         }catch (Exception e){
-            Log.e("Error", "No se pudo enviar mensaje");
+            Log.e("KeepCalmMobile", "No se pudo enviar mensaje");
             e.printStackTrace();
         }
     }
