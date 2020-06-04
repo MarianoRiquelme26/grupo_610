@@ -84,7 +84,13 @@ public class AlumnoDTO implements IRequest, Serializable {
         this.dni = dni;
     }
     public void setDnifromString(String dni) {
-        this.dni = Integer.valueOf(dni);
+
+        try{
+            this.dni = Integer.valueOf(dni);
+        }
+        catch(Exception e){
+            this.dni = 0;
+        }
     }
 
     public void setEmail(String email) {
