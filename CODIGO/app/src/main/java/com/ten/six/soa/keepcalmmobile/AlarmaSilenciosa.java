@@ -14,6 +14,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class AlarmaSilenciosa extends AppCompatActivity implements SensorEventListener {
     private SensorManager mSensorManager;
     private int contador = 0;
@@ -37,7 +40,11 @@ public class AlarmaSilenciosa extends AppCompatActivity implements SensorEventLi
             }
         });
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-
+        try {
+            cuentaRegresiva();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -53,7 +60,24 @@ public class AlarmaSilenciosa extends AppCompatActivity implements SensorEventLi
 
     private void cuentaRegresiva() throws InterruptedException {
 
-        CountDownTimer conteo = new CountDownTimer(3000, 1000) {
+        final Timer conteo = new Timer("Conteo");
+        conteo.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if(contador>=3){
+                    alarmaActivada.setVisibility(View.VISIBLE);
+                    alarmaSilenciosaActivada=true;
+                    Log.e("Gaston","activo alarma");
+                    conteo.cancel();
+                    conteo.purge();
+                }else
+                    Log.e("Gaston","tic");
+
+            }
+        },0,3000);
+
+/*
+
             @Override
             public void onTick(long millisUntilFinished) {
                 if(contador>=3){
@@ -74,24 +98,9 @@ public class AlarmaSilenciosa extends AppCompatActivity implements SensorEventLi
             }
 
         };
-        //conteo.start();
-        while (!alarmaSilenciosaActivada){
+
             conteo.start();
-            new CountDownTimer(3500, 1000) {
-                @Override
-                public void onTick(long millisUntilFinished) {
-
-                }
-
-                @Override
-                public void onFinish() {
-                    iniciarconteodevuleta=true;
-                }
-            }.start();
-            while (!iniciarconteodevuleta){
-
-            }
-        }
+*/
         Log.e("Gaston","sali del while");
 
     }
@@ -156,11 +165,7 @@ public class AlarmaSilenciosa extends AppCompatActivity implements SensorEventLi
     protected void onResume()
     {
         super.onResume();
-        try {
-            cuentaRegresiva();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
         Ini_Sensores();
 
     }
