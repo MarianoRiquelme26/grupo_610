@@ -1,10 +1,14 @@
 package com.ten.six.soa.keepcalmmobile;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -12,6 +16,7 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -31,6 +36,7 @@ public class AlarmaSilenciosa extends AppCompatActivity implements SensorEventLi
     private ServiceTask servidorSOA;
     private RegistrarEventDTO evento;
     private Vibrator vibrador;
+    private String nombreContacto1, nombreContacto2, numero1Contacto, numero2Contacto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,9 +61,24 @@ public class AlarmaSilenciosa extends AppCompatActivity implements SensorEventLi
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        SharedPreferences preferences = getSharedPreferences("contactoMensajetext", Context.MODE_PRIVATE);
+        this.nombreContacto1 =preferences.getString("nombre1","");
+        this.numero1Contacto =preferences.getString("numero1","");
+        this.nombreContacto2 =preferences.getString("nombre2","");
+        this.numero2Contacto =preferences.getString("numero2","");
+        checkSMSStatePermission();
 
     }
-
+    private void checkSMSStatePermission() {
+        int permissionCheck = ContextCompat.checkSelfPermission(
+                this, Manifest.permission.SEND_SMS);
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            Log.i("Mensaje", "No se tiene permiso para enviar SMS.");
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, 225);
+        } else {
+            Log.i("Mensaje", "Se tiene permiso para enviar SMS!");
+        }
+    }
     protected void Ini_Sensores() {
         mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY), SensorManager.SENSOR_DELAY_NORMAL);
 
@@ -78,7 +99,7 @@ public class AlarmaSilenciosa extends AppCompatActivity implements SensorEventLi
                     //alarmaActivada.setVisibility(View.VISIBLE);
                     vibrador.vibrate(1000);
                     alarmaSilenciosaActivada=true;
-                    //enviarMensaje();
+                    enviarMensaje();
                     Log.e("Gaston","activo alarma");
                     registrarEvento();
                     conteo.cancel();
@@ -89,35 +110,18 @@ public class AlarmaSilenciosa extends AppCompatActivity implements SensorEventLi
 
             }
         },0,3000);
-
-/*
-
-            @Override
-            public void onTick(long millisUntilFinished) {
-                if(contador>=3){
-                    alarmaActivada.setVisibility(View.VISIBLE);
-                    alarmaSilenciosaActivada=true;
-                    Log.e("Gaston","activo alarma");
-                }
-                Log.e("Gaston","tictoc");
-
-            }
-
-            @Override
-            public void onFinish() {
-                contador = 0;
-                Log.e("Gaston","reseteo contador");
-
-
-            }
-
-        };
-
-            conteo.start();
-*/
-        Log.e("Gaston","sali del while");
-
     }
+    private void enviarMensaje(){
+        try{
+            SmsManager sms = SmsManager.getDefault();
+            sms.sendTextMessage(numero1Contacto,null, "Ayuda me estan robando!",null, null);
+
+        }catch (Exception e){
+            Log.e("Error", "No se pudo enviar mensaje");
+            e.printStackTrace();
+        }
+    }
+
 
     // Metodo que escucha el cambio de los sensores
     @Override
