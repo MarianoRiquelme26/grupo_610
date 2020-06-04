@@ -99,7 +99,6 @@ public class AlarmaSilenciosa extends AppCompatActivity implements SensorEventLi
                     //alarmaActivada.setVisibility(View.VISIBLE);
                     vibrador.vibrate(1000);
                     alarmaSilenciosaActivada=true;
-                    enviarMensaje();
                     Log.e("Gaston","activo alarma");
                     registrarEvento();
                     conteo.cancel();
@@ -115,7 +114,7 @@ public class AlarmaSilenciosa extends AppCompatActivity implements SensorEventLi
         try{
             SmsManager sms = SmsManager.getDefault();
             sms.sendTextMessage(numero1Contacto,null, "Ayuda me estan robando!",null, null);
-
+            sms.sendTextMessage(numero2Contacto,null, "Ayuda me estan robando!",null, null);
         }catch (Exception e){
             Log.e("Error", "No se pudo enviar mensaje");
             e.printStackTrace();
@@ -191,6 +190,7 @@ public class AlarmaSilenciosa extends AppCompatActivity implements SensorEventLi
     public void registrarEvento() {
 
         if (!this.eventoRegistrado) {
+            enviarMensaje();
             this.eventoRegistrado = true;
             evento = new RegistrarEventDTO("SENSOR", "ACTIVO", "Alarma silenciosa activada - Ayuda!! me estan secruestando, no puedo hablar");
             servidorSOA.setReqOriginal(evento);
