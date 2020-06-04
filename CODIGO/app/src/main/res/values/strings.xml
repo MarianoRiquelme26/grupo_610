@@ -10,6 +10,8 @@
     <string name="BtnPararAlarma">Parar</string>
     <string name="mensaje4">Alarma Silenciosa Activa</string>
     <string name="BtnPararAlarmaSilenciosa">Parar</string>
+    <string name="Guardar">Guardar</string>
+
     <!-- NOMBRE DE CAMPOS A REGISTRAR -->
     <string name="Nombre">Nombre</string>
     <string name="Apellido">Apellido</string>
@@ -30,6 +32,7 @@
     <string name="historial">Historial actividad</string>
     <string name="btnHistorial">Historial</string>
     <string name="confirmar">Confirmar</string>
-
+    <string name="Contactos">Contactos</string>
+    <string name="Numero">Numero</string>
 
 </resources>
