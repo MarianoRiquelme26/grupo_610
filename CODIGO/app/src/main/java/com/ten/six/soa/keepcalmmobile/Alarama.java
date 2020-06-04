@@ -2,16 +2,22 @@ package com.ten.six.soa.keepcalmmobile;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.SystemClock;
+import android.os.Vibrator;
+import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -57,6 +63,8 @@ public class Alarama extends AppCompatActivity implements SensorEventListener {
     private boolean eventoRegistrado;
     private SharedPreferences preferences;
     private Service alarmasilenciosa;
+    private Vibrator vibrador;
+    private String nombreContacto1, nombreContacto2, numero1Contacto, numero2Contacto;
 
 
     DecimalFormat         dosdecimales = new DecimalFormat("###.###");
@@ -131,10 +139,25 @@ public class Alarama extends AppCompatActivity implements SensorEventListener {
                 pararAlarma(v);
             }
         });
+        SharedPreferences preferences = getSharedPreferences("contactoMensajetext", Context.MODE_PRIVATE);
+        this.nombreContacto1 =preferences.getString("nombre1","");
+        this.numero1Contacto =preferences.getString("numero1","");
+        this.nombreContacto2 =preferences.getString("nombre2","");
+        this.numero2Contacto =preferences.getString("numero2","");
+        checkSMSStatePermission();
 
-        //requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
 
+    }
+    private void checkSMSStatePermission() {
+        int permissionCheck = ContextCompat.checkSelfPermission(
+                this, Manifest.permission.SEND_SMS);
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            Log.i("Mensaje", "No se tiene permiso para enviar SMS.");
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, 225);
+        } else {
+            Log.i("Mensaje", "Se tiene permiso para enviar SMS!");
         }
+    }
     @Override
     public void onBackPressed (){
         if (alarmaOn) {
@@ -213,6 +236,7 @@ public class Alarama extends AppCompatActivity implements SensorEventListener {
                                 ) {
                             acelerometro.setText("Alerta Alarma");
                             alertaMediaPlayer.start();
+
                             registrarEvento();
 
                         }
@@ -221,7 +245,16 @@ public class Alarama extends AppCompatActivity implements SensorEventListener {
             }
         }
     }
-
+    private void enviarMensaje(){
+        try{
+            SmsManager sms = SmsManager.getDefault();
+            sms.sendTextMessage(numero1Contacto,null, "Ayuda me estan robando!",null, null);
+            sms.sendTextMessage(numero2Contacto,null, "Ayuda me estan robando!",null, null);
+        }catch (Exception e){
+            Log.e("Error", "No se pudo enviar mensaje");
+            e.printStackTrace();
+        }
+    }
     @Override
         public void onAccuracyChanged(Sensor sensor, int accuracy)
         {
@@ -271,6 +304,7 @@ public class Alarama extends AppCompatActivity implements SensorEventListener {
     public void registrarEvento(){
 
         if(!this.eventoRegistrado){
+            enviarMensaje();
             this.eventoRegistrado = true;
             evento = new RegistrarEventDTO("SENSOR","ACTIVO","Alarma sonora activada - Ayuda!! me estan robando");
             servidorSOA.setReqOriginal(evento);
