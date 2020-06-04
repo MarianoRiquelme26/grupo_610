@@ -4,6 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.util.Log;
@@ -181,7 +183,10 @@ public class ServiceTask extends AsyncTask<Void,Void,String> {
 
         }
         else{
-            if(!this.linkrequestAPI.contains("event"))
+            if(!hayConexion()&&!this.linkrequestAPI.contains("event")){
+                Toast.makeText(httpContext,"Sin conexion",Toast.LENGTH_SHORT).show();
+            }
+            if(hayConexion() && !this.linkrequestAPI.contains("event"))
                 Toast.makeText(httpContext,"error accion, cambie los valores y vuelva a intertarlo o utilice otra opcion ",Toast.LENGTH_LONG).show();
             else
                 Log.e("KeepCalmMobile", "error al registrar el evento en el servidor");
@@ -203,6 +208,13 @@ public class ServiceTask extends AsyncTask<Void,Void,String> {
 
     public String getToken(){
         return this.token;
+    }
+
+
+    public boolean hayConexion(){
+        ConnectivityManager connMgr = (ConnectivityManager)httpContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
     }
 
 }
