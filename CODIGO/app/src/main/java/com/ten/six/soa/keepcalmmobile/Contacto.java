@@ -16,7 +16,7 @@ public class Contacto extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_contacto);
+        setContentView(R.layout.activity_contacto_guardado);
 
         this.nombre1 = (EditText)findViewById(R.id.textNombre1);
         this.numero1 = (EditText)findViewById(R.id.textNumero1);
