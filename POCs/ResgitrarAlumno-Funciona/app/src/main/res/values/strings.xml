@@ -1,6 +1,0 @@
-<resources>
-    <string name="app_name">RegistrarAlumnoFun</string>
-    <string name="btnRegistrar">Registrar</string>
-    <string name="btnLogin">Login</string>
-    <string name="btnEvento">Registrar evento</string>
-</resources>
